@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Atualizar produto</title>
+</head>
+<body>
+<h1>Atualizar Produto</h1>
+<div th:if="${error}">
+    <div>
+        <span th:text="${error}" /><br />
+    </div>
+</div>
+<form class="form-inline" method="POST" action="#" th:object="${produto}" th:action="@{/produto/{id}(id=${produto.id})}">
+    <input type="hidden" th:field="*{id}"/>
+    <input type="text" class="form-control" placeholder="Nome" th:field="*{nome}"/>
+    <input type="text" class="form-control" placeholder="Descrição" th:field="*{descricao}"/>
+    <button type="submit" class="btn btn-primary">Adicionar</button>
+</form>
+</body>
+</html>

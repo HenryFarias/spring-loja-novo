@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Página Inicial</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- MetisMenu CSS -->
+<link href="/metisMenu/metisMenu.min.css" rel="stylesheet" />
+
+<!-- Custom CSS -->
+<link href="/css/sb-admin-2.css" rel="stylesheet" />
+
+<!-- Custom Fonts -->
+<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet"
+	type="text/css" />
+
+</head>
+<body>
+	<div th:if="${error}">
+		<div>
+			<span th:text="${error}" /><br />
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				<div class="login-panel panel panel-primary">
+					<div class="panel-heading">
+						<h2 class="panel-title">Cadastro</h2>
+					</div>
+					<div class="panel-body">
+						<form class="form-inline" method="POST" enctype="multipart/form-data" th:object="${produto}" th:action="@{/produto/new}">
+							<fieldset>
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Produto"
+										th:field="*{nome}" />
+								</div>
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Descrição"
+										th:field="*{descricao}" />
+								</div>
+								<div class="form-group">
+									<input type="file" class="form-control" name="multipartFile" placeholder="Imagem"/>
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary">Adicionar</button>
+								</div>		
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<!-- jQuery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/sb-admin-2.js"></script>
+</html>

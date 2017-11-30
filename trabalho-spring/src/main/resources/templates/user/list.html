@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Página Inicial</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- MetisMenu CSS -->
+<link href="/metisMenu/metisMenu.min.css" rel="stylesheet" />
+
+<!-- Custom CSS -->
+<link href="/css/sb-admin-2.css" rel="stylesheet" />
+
+<!-- Custom Fonts -->
+<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet"
+	type="text/css" />
+
+</head>
+<body>
+
+	<div id="wrapper">
+
+		<!-- Barra superior -->
+		<nav class="navbar navbar-default navbar-static-top" role="navigation"
+			style="margin-bottom: 0">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Usuários</a>
+			</div>
+			<!-- /.navbar-header -->
+
+			<ul class="nav navbar-top-links navbar-right">
+
+				<li>Usuários</li>
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
+						<i class="fa fa-caret-down"></i>
+				</a>
+					<ul class="dropdown-menu dropdown-user">
+						<li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+						</li>
+					</ul> <!-- /.dropdown-user --></li>
+				<!-- /.dropdown -->
+			</ul>
+			<!-- /.navbar-top-links -->
+		</nav>
+
+	</div>
+
+
+	<div>
+		<a href="/user/new">Novo Usuário</a> 
+		<a href="/produto/new">Novo Produto</a> 
+		<a href="/produto">Listagem de produtos</a> 
+		<a href="/user">Listagem de usuários</a>
+	</div>
+	<h1>Lista de Usuários</h1>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>Nome de usuário</th>
+				<th>Senha</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="user: ${users}">
+				<td th:text="${user.name}"></td>
+				<td th:text="${user.username}"></td>
+				<td th:text="${user.password}"></td>
+				<td><a th:href="@{ /user/{id}(id=${user.id}) }" class="btn btn-info">Editar</a></td>
+				<td><a th:href="@{ /user/{id}/delete(id=${user.id}) }" class="btn btn-danger">Excluir</a></td>
+				<td><a th:href="@{ /user/{id}/senha(id=${user.id}) }" class="btn btn-warning">Editar senha</a></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+<!-- jQuery -->
+<script src="/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/sb-admin-2.js"></script>
+
+</html>

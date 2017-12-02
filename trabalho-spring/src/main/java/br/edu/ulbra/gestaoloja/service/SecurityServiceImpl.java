@@ -44,21 +44,14 @@ public class SecurityServiceImpl implements SecurityService{
     }
 
     @Override
-    public void autologin(String username, String password) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        password = this.userService.encoder(password);
+    public void autologin(String username, String password) throws Exception {
+    	UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+    	
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+        authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         
-        try{
-            authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-        } catch(Exception e) {
-        	e.printStackTrace();
-        }
-
         if (usernamePasswordAuthenticationToken.isAuthenticated()){
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }
     }
-
-
 }

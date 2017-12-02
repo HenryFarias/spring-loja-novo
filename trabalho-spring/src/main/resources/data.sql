@@ -1,5 +1,5 @@
 insert into user (username, password, name) VALUES 
-('user1', '$2a$10$GinoZ5nJordq6K/kUUfypuJsw2zw2AqLEug1mlx7/plL8DfKSvGxS', 'user1');
+('user1', 'user1', 'user1');
 
 -- senha é user1
 

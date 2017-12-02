@@ -8,5 +8,5 @@ public interface SecurityService {
 
     User findLoggedInUser();
 
-    void autologin(String username, String password);
+    void autologin(String username, String password) throws Exception;
 }

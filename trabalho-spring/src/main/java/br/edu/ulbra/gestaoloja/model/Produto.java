@@ -69,4 +69,16 @@ public class Produto {
 	public void setComentarios(Set<Comentarios> comentarios) {
 		this.comentarios = comentarios;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		Produto produto = (Produto) obj;
+		
+		if (produto.getId() == this.id) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

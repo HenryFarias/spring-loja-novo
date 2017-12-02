@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Página Inicial</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- MetisMenu CSS -->
+<link href="/metisMenu/metisMenu.min.css" rel="stylesheet" />
+
+<!-- Custom CSS -->
+<link href="/css/sb-admin-2.css" rel="stylesheet" />
+
+<!-- Custom Fonts -->
+<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet"
+	type="text/css" />
+
+</head>
+<body>
+	<div th:if="${error}">
+		<div>
+			<span th:text="${error}" /><br />
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<img width="100" th:src="@{ /produto/files/{fileName} (fileName=${produto.imagePath}) }" />
+			</div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-12">
+						<label th:text="${produto.nome}"></label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<label th:text="${produto.descricao}"></label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<button type="button" class="btn btn-default" aria-label="Left Align">
+					  		<span th:text="${cometariosPositivos}" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+						</button>
+						<button type="button" class="btn btn-default" aria-label="Left Align">
+						  	<span th:text="${comentariosNegativos}" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<form class="form-inline" method="POST" th:object="${comentario}" th:action="@{/comentario/new}">
+					<h1>COMENTÁRIOS</h1>
+					<textarea th:field="*{comentario}" rows="5" cols="10"></textarea>
+					<button id="positivo" type="button" class="btn btn-default" aria-label="Left Align">
+				  		<span th:text="${cometariosPositivos}" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					</button>
+					<button id="negativo" type="button" class="btn btn-default" aria-label="Left Align">
+					  	<span th:text="${comentariosNegativos}" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+					</button>
+					
+					<input type="hidden" th:field="*{produto}" th:value="${produto}" />
+					<input type="hidden" id="like" th:field="*{like}" />
+				</form>
+			</div>
+		</div>
+		<div th:each="comentario: ${comentarios}" class="row">
+			<div class="col-md-10">
+				<h2 th:text="${comentario.user.username}"></h2>
+				<label th:text="${comentario.comentario}"></label>
+			</div>
+			<div class="col-md-2">
+				<button th:if="${comentario.like}" type="button" class="btn btn-default" aria-label="Left Align">
+			  		<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+				</button>
+				<button th:unless="${comentario.like}" type="button" class="btn btn-default" aria-label="Left Align">
+				  	<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+				</button>
+			</div>
+		</div>
+	</div>
+</body>
+<!-- jQuery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="/metisMenu/metisMenu.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/sb-admin-2.js"></script>
+</html>

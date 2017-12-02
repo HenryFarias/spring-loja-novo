@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import br.edu.ulbra.gestaoloja.input.UserInput;
 import br.edu.ulbra.gestaoloja.model.User;
 import br.edu.ulbra.gestaoloja.repository.UserRepository;
+import br.edu.ulbra.gestaoloja.service.UserServiceImpl;
+import br.edu.ulbra.gestaoloja.service.interfaces.SecurityService;
 
 @Controller
 @RequestMapping("/user")
@@ -21,14 +23,23 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+    
+    @Autowired
+    UserServiceImpl userService;
+    
+    @Autowired
+    SecurityService securityService;
 
     private ModelMapper mapper = new ModelMapper();
 
     @GetMapping()
-    public ModelAndView listUserDemo(){
+    public ModelAndView listUser(){
         ModelAndView mv = new ModelAndView("user/list");
         List<User> usuarios = (List<User>) userRepository.findAll();
+        
         mv.addObject("users", usuarios);
+        mv.addObject("user", securityService.findLoggedInUser());
+        
         return mv;
     }
 
@@ -45,13 +56,14 @@ public class UserController {
 
     @PostMapping(value="/new")
     public ModelAndView newUser(UserInput userInput) {
-        if (userInput.getPassword() != null && userInput.getPassword().length() > 0 && !userInput.getPassword().equals(userInput.getPasswordConfirm())){
+        if (userInput.getPassword() != null && userInput.getPassword().length() > 0 && !userInput.getPassword().equals(userInput.getPasswordConfirm())) {
             ModelAndView mv = this.userForm(userInput);
             mv.addObject("error", "Senha inválida!");
             return mv;
         }
+        
         User user = mapper.map(userInput, User.class);
-        userRepository.save(user);
+        this.userService.save(user);
         return new ModelAndView("redirect:/user/?usercreated=true");
     }
     

@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Página Inicial</title>
-
-<!-- Bootstrap Core CSS -->
-<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-
-<!-- MetisMenu CSS -->
-<link href="/metisMenu/metisMenu.min.css" rel="stylesheet" />
-
-<!-- Custom CSS -->
-<link href="/css/sb-admin-2.css" rel="stylesheet" />
-
-<!-- Custom Fonts -->
-<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet"
-	type="text/css" />
-
+	<meta charset="UTF-8" />
+	<title>Página Inicial</title>
+	
+	<!-- Bootstrap Core CSS -->
+	<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	
+	<!-- MetisMenu CSS -->
+	<link href="/metisMenu/metisMenu.min.css" rel="stylesheet" />
+	
+	<!-- Custom CSS -->
+	<link href="/css/sb-admin-2.css" rel="stylesheet" />
+	
+	<!-- Custom Fonts -->
+	<link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet"
+		type="text/css" />
 </head>
 <body>
 
@@ -38,7 +37,7 @@
 
 			<ul class="nav navbar-top-links navbar-right">
 
-				<li>Usuario</li>
+				<li><label th:text="${user.name}"></label></li>
 				<li class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
 						<i class="fa fa-caret-down"></i>
@@ -54,27 +53,42 @@
 
 	</div>
 
-
-	<div>
-		<a href="/user/new">Novo Usuário</a> <a href="/produto/new">Novo
-			Produto</a> <a href="/produto">Listagem de produtos</a> <a href="/user">Listagem
-			de usuários</a>
+	<div th:if="${admin}">
+		<a href="/user/new">Novo Usuário</a> 
+		<a href="/produto/new">Novo Produto</a> 
+		<a href="/produto">Listagem de produtos</a> 
+		<a href="/user">Listagem de usuários</a>
 	</div>
+	
 	<h1>Lista de produtos</h1>
+	
 	<table class="table">
 		<thead>
 			<tr>
 				<th>Nome</th>
 				<th>Descrição</th>
+				<th>Imagem</th>
+				<th>Curtidas</th>
+				<th th:if="${admin}">Ações</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr th:each="produto: ${produtos}">
 				<td th:text="${produto.nome}"></td>
-				<td th:text="${produto.descricao}"></td>
-				<td> <img width="50" th:src="@{ /produto/files/{fileName} (fileName=${produto.imagePath}) }" /> </td>
-				<td><a th:href="@{ /produto/{id}(id=${produto.id}) }" class="btn btn-info">Editar</a></td>
-				<td><a th:href="@{ /produto/{id}/delete(id=${produto.id}) }" class="btn btn-danger">Excluir</a></td>
+				<td> <a th:href="@{ /produto/{id}/detalhe(id=${produto.id}) }"> <label th:text="${produto.descricao}"></label> </a></td>
+				<td> <img width="70" th:src="@{ /produto/files/{fileName} (fileName=${produto.imagePath}) }" /> </td>
+				<td>
+					<button type="button" class="btn btn-default" aria-label="Left Align">
+					  18 <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					</button>
+					<button type="button" class="btn btn-default" aria-label="Left Align">
+					  10 <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+					</button>
+				</td>
+				<td th:if="${admin}">
+					<a th:href="@{ /produto/{id}(id=${produto.id}) }" class="btn btn-info">Editar</a>
+					<a th:href="@{ /produto/{id}/delete(id=${produto.id}) }" class="btn btn-danger">Excluir</a>
+				</td>
 			</tr>
 		</tbody>
 	</table>

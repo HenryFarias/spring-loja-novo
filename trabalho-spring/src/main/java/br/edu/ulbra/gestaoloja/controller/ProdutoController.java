@@ -19,7 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.edu.ulbra.gestaoloja.input.ProdutoInput;
 import br.edu.ulbra.gestaoloja.model.Produto;
-import br.edu.ulbra.gestaoloja.repository.ProductRepository;
+import br.edu.ulbra.gestaoloja.repository.ProdutoRepository;
+import br.edu.ulbra.gestaoloja.service.interfaces.ProdutoService;
+import br.edu.ulbra.gestaoloja.service.interfaces.SecurityService;
+import br.edu.ulbra.gestaoloja.service.interfaces.UserService;
 
 @Controller
 @RequestMapping("/produto")
@@ -28,7 +31,16 @@ public class ProdutoController {
 	private ModelMapper mapper = new ModelMapper();
 	
 	@Autowired
-    ProductRepository produtoRepository;
+    ProdutoRepository produtoRepository;
+	
+	@Autowired
+    SecurityService securityService;
+	
+	@Autowired
+    UserService userService;
+	
+	@Autowired
+    ProdutoService produtoService;
 	
 	@Value("${gestao-loja.uploadFilePath}")
 	private String uploadFilePath;
@@ -39,6 +51,9 @@ public class ProdutoController {
         List<Produto> produtos = (List<Produto>) produtoRepository.findAll();
         
         mv.addObject("produtos", produtos);
+        mv.addObject("user", securityService.findLoggedInUser());
+        mv.addObject("admin", this.userService.isAdmin(securityService.findLoggedInUser()));
+        
         return mv;
     }
     
@@ -67,10 +82,8 @@ public class ProdutoController {
         produto.setNome(produtoInput.getNome());
         produto.setDescricao(produtoInput.getDescricao());
         
-        produtoRepository.save(produto);
+        this.produtoRepository.save(produto);
         
-        
-       
         return new ModelAndView("redirect:/produto");
     }
     
@@ -100,9 +113,24 @@ public class ProdutoController {
     @GetMapping("/{id}/delete")
     public ModelAndView excluirProduto(@PathVariable(name="id") Long id) {
     	Produto produto = produtoRepository.findOne(id);
-    	produtoRepository.delete(produto);
+    	this.produtoRepository.delete(produto);
     	
     	return new ModelAndView("redirect:/produto");
+    }
+    
+    @GetMapping("/{id}/detalhe")
+    public ModelAndView detalhe(@PathVariable(name="id") Long id) {
+    	Produto produto = produtoRepository.findOne(id);
+    	ProdutoInput produtoInput = mapper.map(produto, ProdutoInput.class);
+    	
+        ModelAndView mv = new ModelAndView("produto/detalhe");
+        
+        mv.addObject("produto", produtoInput);
+        mv.addObject("comentarios", produto.getComentarios());
+        mv.addObject("cometariosPositivos", this.produtoService.getCometariosPositivos(produto));
+        mv.addObject("comentariosNegativos", this.produtoService.getCometariosNegativos(produto));
+        
+        return mv;
     }
     
     @GetMapping("/files/{fileName:.+}")

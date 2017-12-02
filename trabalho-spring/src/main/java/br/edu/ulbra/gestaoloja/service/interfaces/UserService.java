@@ -9,4 +9,6 @@ public interface UserService {
     User findByUsername(String username);
 
 	String encoder(String password);
+
+	Boolean isAdmin(User user);
 }

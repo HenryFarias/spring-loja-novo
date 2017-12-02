@@ -38,13 +38,13 @@
 
 			<ul class="nav navbar-top-links navbar-right">
 
-				<li>Usuários</li>
+				<li><label th:text="${user.name}"></label></li>
 				<li class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#"> <i class="fa fa-user fa-fw"></i>
 						<i class="fa fa-caret-down"></i>
 				</a>
 					<ul class="dropdown-menu dropdown-user">
-						<li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+						<li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
 						</li>
 					</ul> <!-- /.dropdown-user --></li>
 				<!-- /.dropdown -->

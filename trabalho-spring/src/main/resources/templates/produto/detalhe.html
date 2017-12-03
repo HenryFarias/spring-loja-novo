@@ -33,6 +33,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<label th:text="${produto.nome}"></label>
+						<input type="hidden" id="produtoId" th:value="${produto.id}" />
 					</div>
 				</div>
 				<div class="row">
@@ -43,7 +44,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<button type="button" class="btn btn-default" aria-label="Left Align">
-					  		<span th:text="${cometariosPositivos}" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					  		<span th:text="${comentariosPositivos}" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 						</button>
 						<button type="button" class="btn btn-default" aria-label="Left Align">
 						  	<span th:text="${comentariosNegativos}" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
@@ -54,18 +55,21 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<form class="form-inline" method="POST" th:object="${comentario}" th:action="@{/comentario/new}">
+				<form id="form" class="form-inline" method="POST" th:object="${comentario}" th:action="@{/comentario/new}">
 					<h1>COMENTÁRIOS</h1>
-					<textarea th:field="*{comentario}" rows="5" cols="10"></textarea>
+					<textarea id="comentario" th:field="*{comentario}" rows="5" cols="10"></textarea>
 					<button id="positivo" type="button" class="btn btn-default" aria-label="Left Align">
-				  		<span th:text="${cometariosPositivos}" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+				  		<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 					</button>
 					<button id="negativo" type="button" class="btn btn-default" aria-label="Left Align">
-					  	<span th:text="${comentariosNegativos}" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+					  	<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 					</button>
 					
-					<input type="hidden" th:field="*{produto}" th:value="${produto}" />
-					<input type="hidden" id="like" th:field="*{like}" />
+					<input type="hidden" id="produto" th:field="*{produto}" />
+					
+					<input type="hidden" id="gostei" th:field="*{gostei}" />
+					
+					<input type="submit" id="comentar" class="btn btn-success" value="Comentar" />
 				</form>
 			</div>
 		</div>
@@ -75,10 +79,10 @@
 				<label th:text="${comentario.comentario}"></label>
 			</div>
 			<div class="col-md-2">
-				<button th:if="${comentario.like}" type="button" class="btn btn-default" aria-label="Left Align">
+				<button th:if="${comentario.gostei}" type="button" class="btn btn-default" aria-label="Left Align">
 			  		<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 				</button>
-				<button th:unless="${comentario.like}" type="button" class="btn btn-default" aria-label="Left Align">
+				<button th:unless="${comentario.gostei}" type="button" class="btn btn-default" aria-label="Left Align">
 				  	<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 				</button>
 			</div>
@@ -86,14 +90,16 @@
 	</div>
 </body>
 <!-- jQuery -->
-<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/jquery/jquery.min.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
 <script src="/metisMenu/metisMenu.min.js"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="/js/sb-admin-2.js"></script>
+
+<script src="/js/loja.js"></script>
 </html>

@@ -1,7 +1,4 @@
-insert into user (username, password, name) VALUES 
-('user1', 'user1', 'user1');
-
--- senha é user1
+insert into user (username, password, name) VALUES ('user1', 'user1', 'user1');
 
 insert into role (name) VALUES ('ROLE_ADMIN');
 insert into role (name) VALUES ('ROLE_USER');

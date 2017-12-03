@@ -9,7 +9,6 @@ public class ProdutoInput {
     private String descricao;
     private MultipartFile multipartFile;
 
-
     public Long getId() {
         return id;
     }

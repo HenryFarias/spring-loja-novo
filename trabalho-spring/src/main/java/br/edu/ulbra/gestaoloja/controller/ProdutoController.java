@@ -1,9 +1,9 @@
 package br.edu.ulbra.gestaoloja.controller;
 
-import java.io.IOException;
-import java.util.List;
-
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.edu.ulbra.gestaoloja.input.ComentarioInput;
 import br.edu.ulbra.gestaoloja.input.ProdutoInput;
+import br.edu.ulbra.gestaoloja.input.ProdutoListagemInput;
+import br.edu.ulbra.gestaoloja.model.Comentarios;
 import br.edu.ulbra.gestaoloja.model.Produto;
 import br.edu.ulbra.gestaoloja.repository.ProdutoRepository;
 import br.edu.ulbra.gestaoloja.service.interfaces.ProdutoService;
@@ -48,11 +51,19 @@ public class ProdutoController {
 	@GetMapping()
     public ModelAndView listarProdutos() {
         ModelAndView mv = new ModelAndView("produto/list");
-        List<Produto> produtos = (List<Produto>) produtoRepository.findAll();
+        ArrayList<ProdutoListagemInput> produtosTela = new ArrayList<ProdutoListagemInput>(0);
+        Iterable<Produto> produtos =  this.produtoRepository.findAll();
         
-        mv.addObject("produtos", produtos);
-        mv.addObject("user", securityService.findLoggedInUser());
-        mv.addObject("admin", this.userService.isAdmin(securityService.findLoggedInUser()));
+        for (Produto produto : produtos) {
+        	ProdutoListagemInput produtoInput = mapper.map(produto, ProdutoListagemInput.class);
+        	produtoInput.setComentariosPositivos(this.produtoService.getCometariosPositivos(produto));
+        	produtoInput.setComentariosNegativos(this.produtoService.getCometariosNegativos(produto));
+        	produtosTela.add(produtoInput);
+        }
+        
+        mv.addObject("produtos", produtosTela);
+        mv.addObject("user", this.securityService.findLoggedInUser());
+        mv.addObject("admin", this.userService.isAdmin(this.securityService.findLoggedInUser()));
         
         return mv;
     }
@@ -121,14 +132,14 @@ public class ProdutoController {
     @GetMapping("/{id}/detalhe")
     public ModelAndView detalhe(@PathVariable(name="id") Long id) {
     	Produto produto = produtoRepository.findOne(id);
-    	ProdutoInput produtoInput = mapper.map(produto, ProdutoInput.class);
     	
         ModelAndView mv = new ModelAndView("produto/detalhe");
         
-        mv.addObject("produto", produtoInput);
+        mv.addObject("produto", produto);
         mv.addObject("comentarios", produto.getComentarios());
-        mv.addObject("cometariosPositivos", this.produtoService.getCometariosPositivos(produto));
+        mv.addObject("comentariosPositivos", this.produtoService.getCometariosPositivos(produto));
         mv.addObject("comentariosNegativos", this.produtoService.getCometariosNegativos(produto));
+        mv.addObject("comentario", new Comentarios());
         
         return mv;
     }

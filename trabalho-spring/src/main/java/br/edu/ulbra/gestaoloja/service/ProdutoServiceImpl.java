@@ -22,7 +22,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 		ArrayList<Comentarios> comentariosPositivos = new ArrayList<Comentarios>(0);
 		
 		for (Comentarios comentario : comentarios) {
-			if (comentario.getLike().equals(true) && comentario.getProduto().equals(produto)) {
+			if (comentario.getGostei().equals(true) && comentario.getProduto().equals(produto)) {
 				comentariosPositivos.add(comentario);
 			}
 		}
@@ -36,7 +36,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 		ArrayList<Comentarios> comentariosNegativos = new ArrayList<Comentarios>(0);
 		
 		for (Comentarios comentario : comentarios) {
-			if (comentario.getLike().equals(false) && comentario.getProduto().equals(produto)) {
+			if (comentario.getGostei().equals(false) && comentario.getProduto().equals(produto)) {
 				comentariosNegativos.add(comentario);
 			}
 		}

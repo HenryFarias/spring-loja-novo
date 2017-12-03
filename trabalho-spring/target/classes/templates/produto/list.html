@@ -79,10 +79,10 @@
 				<td> <img width="70" th:src="@{ /produto/files/{fileName} (fileName=${produto.imagePath}) }" /> </td>
 				<td>
 					<button type="button" class="btn btn-default" aria-label="Left Align">
-					  18 <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+					  <span th:text="${produto.comentariosPositivos}" class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
 					</button>
 					<button type="button" class="btn btn-default" aria-label="Left Align">
-					  10 <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+					  <span th:text="${produto.comentariosNegativos}" class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
 					</button>
 				</td>
 				<td th:if="${admin}">
